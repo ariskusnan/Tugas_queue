@@ -1,175 +1,180 @@
-#include <iostream.h>
-#include <iomanip.h>
-#include <conio.h>
-#include <stdio.h>
+#include<iostream>
+#include<conio.h>
+#include<string>
+using namespace std;
 
-#define max 10
+typedef struct data{
+	int nomorPemain;
+	string nmPemain;
+	string posPemain;
+	
+}dData;
 
-typedef struct
+class simpul
 {
-int head;
-int tail;
+	public :
+		dData dtpemain;
+		simpul* pBerikutnya;
+		
+		
+		simpul(string nP,string pP, int np)
+		{
+			dtpemain.nmPemain = nP;
+			dtpemain.posPemain = pP;
+			dtpemain.nomorPemain = np;
+			pBerikutnya = NULL;
+		}
+		
+		void tampilSimpul()
+		{
+			cout << dtpemain.nomorPemain << "--->" << dtpemain.nmPemain 
+			<< "--->" <<dtpemain.posPemain<<endl;
+		}
+};
 
-char *t[max], *s[max];
-int a[max];
-
-} queue;
-
-queue pos;
-
-void creat()
+class linkedlist
 {
-pos.head=pos.tail=-1;
-}
+	private :
+		simpul* pPertama;
+		simpul* pAkhir;
+	
+	public :
+		linkedlist() : pPertama(NULL)
+		{}
+		
+		~linkedlist()
+		{
+			simpul* pSekarang = pPertama;
+			while(pSekarang!=NULL)
+			{
+				simpul* pLama = pSekarang;
+				pSekarang = pSekarang->pBerikutnya;
+				delete pLama;
+			}
+		}
+		
+		bool apaKosong()
+		{
+			return (pPertama==NULL);
+		}
+		
+		void sisipAkhir(string nP, string pP, int np)
+		{
+			simpul* pSimpulBaru = new simpul(nP,pP,np);
+			if(apaKosong())
+			{
+				pPertama = pSimpulBaru;
+			}
+			else
+			{
+				pAkhir->pBerikutnya=pSimpulBaru;
+			}
+			pAkhir=pSimpulBaru;
+		}
+		
+		void hapusPertama()
+		{
+			simpul* pTemp = pPertama;
+			pPertama = pPertama->pBerikutnya;
+			delete pTemp;
+		}
+		
+		void tampilSenarai()
+		{
+			simpul* pSekarang = pPertama;
+			if(pSekarang==NULL)
+			{
+				cout << "STACK KOSONG!!!";
+			}
+			while(pSekarang!=NULL)
+			{
+				pSekarang->tampilSimpul();
+				pSekarang = pSekarang->pBerikutnya;
+			}
+			cout << endl;
+		}
+};
 
-iempty()
+class queuelist
 {
-if(pos.tail==-1)
-return 1;
-else
-return 0;
-}
+	private :
+		linkedlist* pSenarai;
+	
+	public :
+		queuelist()
+		{
+			pSenarai = new linkedlist;
+		}
+		
+		~queuelist()
+		{
+			delete pSenarai;
+		}
+		
+		void push(string nP, string pP, int np)
+		{
+			pSenarai->sisipAkhir(nP,pP,np);
+		}
+		
+		void pop()
+		{
+			pSenarai->hapusPertama();	
+		}
+		
+		bool apaKosong()
+		{
+			return (pSenarai->apaKosong());
+		}
+		
+		void tampilTumpukan()
+		{
+			pSenarai->tampilSenarai();
+		}
+};
 
-ifull()
+int main()
 {
-if(pos.tail==max-1)
-return 1;
-else
-return 0;
-}
-
-void enqueue( int w,char *q, char *e)
-{
-if(iempty()==1)
-{
-pos.head=pos.tail=0;
-pos.a[pos.tail]=w;
-pos.t[pos.tail]=q;
-pos.s[pos.tail]=e;
-}
-
-else if(ifull()==0)
-{
-pos.tail++;
-pos.a[pos.tail]=w;
-pos.t[pos.tail]=q;
-pos.s[pos.tail]=e;
-}
-
-else if(ifull()==1)
-{
-cout<<"QUEUE PENUH";
-}
-}
-
-dequeue()
-{
-if(iempty()==0)
-{
-int i;
-int x=pos.a[pos.tail];
-char *z=pos.t[pos.tail];
-char *c=pos.s[pos.tail];
-
-for(i=pos.head; 1<=pos.tail-1; i++)
-{
-pos.a[i]=pos.a[i+1];
-pos.t[i]=pos.t[i+1];
-pos.s[i]=pos.s[i+1];
-}
-
-pos.tail--;
-cout<<"DATA YANG DIHAPUS ADALAH : \n";
-cout<<"Kode Barang : "<<x<<endl;
-cout<<"Nama Barang : "<<z<<endl;
-cout<<"Posisi : "<<c<<endl;
-}
-
-else if(iempty()==1)
-{ cout<<"DATA EROR......QUEUE KOSONG"; }
-
-return 1;
-}
-
-void clear()
-{
-pos.head=pos.tail=-1;
-cout<<"QUEUE CLEAR";
-}
-
-void view()
-{
-if(iempty()==0)
-{
-cout<<"NO Nomor     Nama   		 Posisi\n";
-
-for(int i=pos.head; i<=pos.tail; i++)
-{
-cout<<setiosflags(ios::left)<<setw(3)<<i;
-cout<<setiosflags(ios::left)<<setw(15)<<pos.a[i];
-cout<<setiosflags(ios::left)<<setw(15)<<pos.t[i];
-cout<<setiosflags(ios::left)<<setw(9)<<pos.s[i]<<endl;
-}
-}
-else
-{ cout<<"NO Nomor Nama Posisis\n"; }
-}
-
-main()
-{
-
-int menu;
-int acc;
-char tip[30];
-char tpd[30];
-
-creat();
-
-do{
-
-clrscr();
-
-
-cout<<"===========================\n";
-cout<<" MENU PROGRAM QUEUE\n";
-cout<<"===========================\n";
-cout<<"1.ENQUEUE\n";
-cout<<"2.DEQUEUE\n";
-cout<<"3.CLEAR\n";
-cout<<"4.VIEW\n";
-cout<<"5.EXIT\n";
-cout<<"===========================\n";
-cout<<"PILIH MENU : "; cin>>menu;
-
-switch(menu)
-{
-case 1:
-
-cout<<"MASUKAN Nomor : "; cin>>acc;
-cout<<"\nMASUKAN Nama : "; gets(tip);
-cout<<"\nMASUKAN Posisi : "; gets(tpd);
-
-enqueue( acc,tip, tpd);
-break;
-
-case 2:
-dequeue();
-break;
-
-case 3:
-clear();
-break;
-
-case 4:
-view();
-break;
-
-case 5:
-cout<<"exitttt.......bye...... :):D";
-break;
-}
-getch();
-
-}while(menu!=5);
-
+	queuelist queue;
+	int pilih, no;
+	string nama, posisi;
+	do 
+	{
+		cout << "\n=====================================================" << endl;
+		cout << "Queue (Data Pemain Sepakbola)" << endl << endl;
+		cout << "1. Enqueue" << endl;
+		cout << "2. Dequeue" << endl;
+		cout << "3. View" << endl;
+		cout << "4. Exit" << endl << endl;
+		cout << "Masukkan Pilihan menu : ";
+		cin >> pilih;
+		cout << "=====================================================" << endl;
+	
+		switch(pilih)
+		{
+			case 1 :
+				cout << "\nMasukkan Nomer Punggung Pemain : "; cin >> no;
+				cin.ignore(256,'\n');
+				cout << "Masukkan Nama Pemain : "; getline(cin,nama);
+				cout << "Masukkan Posisi Pemain : "; getline(cin,posisi);
+				queue.push(nama,posisi,no);
+				break;
+				
+			case 2 :
+				queue.pop();
+				break;
+			
+			case 3 :
+				queue.tampilTumpukan();
+				break;
+				
+			case 4 :
+				exit(0);
+				break;
+				
+			default :
+				cout << "pilihan yang anda masukkan salah!!!"<<endl;
+		}
+	} while (true);
+	getch();
+	return 0;
 }
