@@ -1,12 +1,15 @@
 #include<iostream>
 #include<conio.h>
 #include<string>
+
 using namespace std;
+       
 
 typedef struct data{
 	int nomorPemain;
 	string nmPemain;
 	string posPemain;
+	
 	
 }dData;
 
@@ -137,9 +140,13 @@ int main()
 	queuelist queue;
 	int pilih, no;
 	string nama, posisi;
+	  system ("color 7A") ;
 	do 
 	{
-		cout << "\n=====================================================" << endl;
+		cout << "=======================================================" << endl;
+		cout << "Aris Kusnandar                                        =" << endl ;
+		cout << "5150411124                                            = " << endl ;
+		cout << "=======================================================" << endl;
 		cout << "Queue (Data Pemain Sepakbola)" << endl << endl;
 		cout << "1. Enqueue" << endl;
 		cout << "2. Dequeue" << endl;
@@ -176,5 +183,6 @@ int main()
 		}
 	} while (true);
 	getch();
+
 	return 0;
 }
