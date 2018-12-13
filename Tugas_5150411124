@@ -79,7 +79,7 @@ class linkedlist
 			delete pTemp;
 		}
 		
-		void tampilSenarai()
+		void tampil()
 		{
 			simpul* pSekarang = pPertama;
 			if(pSekarang==NULL)
@@ -128,7 +128,7 @@ class queuelist
 		
 		void tampilTumpukan()
 		{
-			pSenarai->tampilSenarai();
+			pSenarai->tampil();
 		}
 };
 
